@@ -7,7 +7,7 @@
 
 void array__print(int array[], unsigned int size);
 bool array__read_from_file(char * const filename, unsigned int array_size, int array[]);
-unsigned int array__find_max(int array[], unsigned int start_index, unsigned int end_index);
+unsigned int array__find_max_index(int array[], unsigned int start_index, unsigned int end_index);
 void array__max_to_first(int array[], unsigned int start_index, unsigned int end_index);
 
 #endif /* __ARRAY_H__ */
