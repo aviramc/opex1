@@ -8,7 +8,7 @@
 #include "array.h"
 
 #define ARRAY_SIZE (8)        /* The 'n' of the exercise */
-#define SUB_ARRAYS (3)        /* The 'k' of the exercise */
+#define SUB_ARRAYS (4)        /* The 'k' of the exercise */
 /* The size of each sub array of the first (k - 1) arrays. */
 #define SUB_ARRAYS_SIZE (ARRAY_SIZE / SUB_ARRAYS)   /* [n/k] */
 /* The size of the array k, which will always be larger or equal to SUB_ARRAYS_SIZE */
@@ -136,5 +136,13 @@ static void create_sub_arrays(int input_array[ARRAY_SIZE], int output_arrays[SUB
     /* Set the last and longer array. */
     for (i = 0; i < LAST_ARRAY_SIZE; i++) {
         output_arrays[SUB_ARRAYS - 1][i] = input_array[ARRAY_SIZE - LAST_ARRAY_SIZE + i];
+    }
+
+    /*~~~*/
+    for (i = 0; i < SUB_ARRAYS; i++) {
+        for (j = 0; j < LAST_ARRAY_SIZE; j++) {
+            printf("%d ", output_arrays[i][j]);
+        }
+        printf("\n");
     }
 }
