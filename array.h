@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define ARRAY_EMPTY(start_index, size) ((start_index) + 1 == (size))
+#define ARRAY_EMPTY(start_index, size) ((start_index) >= (size))
 
 void array__print(int array[], unsigned int size);
 bool array__read_from_file(char * const filename, unsigned int array_size, int array[]);
