@@ -1,6 +1,8 @@
 #ifndef __ARRAY_H__
 #define __ARRAY_H__
 
+#include <stdbool.h>
+
 #define ARRAY_EMPTY(start_index, size) ((start_index) + 1 == (size))
 
 void array__print(int array[], unsigned int size);

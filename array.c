@@ -57,9 +57,9 @@ unsigned int array__find_max_index(int array[], unsigned int start_index, unsign
 void array__max_to_first(int array[], unsigned int start_index, unsigned int end_index)
 {
     int temp = 0;
-    int max_index = array__find_max_index(array, start_index, end_index);
+    unsigned int max_index = array__find_max_index(array, start_index, end_index);
 
     temp = array[max_index];
-    array[max_index] = array[0];
-    array[0] = temp;
+    array[max_index] = array[start_index];
+    array[start_index] = temp;
 }
