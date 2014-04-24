@@ -8,7 +8,7 @@
 #include "array.h"
 
 #define ARRAY_SIZE (8)        /* The 'n' of the exercise */
-#define SUB_ARRAYS (4)        /* The 'k' of the exercise */
+#define SUB_ARRAYS (2)        /* The 'k' of the exercise */
 /* The size of each sub array of the first (k - 1) arrays. */
 #define SUB_ARRAYS_SIZE (ARRAY_SIZE / SUB_ARRAYS)   /* [n/k] */
 /* The size of the array k, which will always be larger or equal to SUB_ARRAYS_SIZE */
@@ -80,7 +80,7 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
         /* Initially set the max index to the index of the max of the first array. */
         current_start_index = sub_arrays_start_index[first_array_index];
         current_array_size = sub_arrays_sizes[first_array_index];
-        array__max_to_first(sub_arrays[first_array_index], current_start_index, current_array_size);
+        array__max_to_first(sub_arrays[first_array_index], current_start_index, current_array_size - 1);
         max_value = sub_arrays[first_array_index][current_start_index];
         max_array = first_array_index;
 
@@ -97,7 +97,7 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
                 continue;
             }
 
-            array__max_to_first(sub_arrays[i], current_start_index, current_array_size);
+            array__max_to_first(sub_arrays[i], current_start_index, current_array_size - 1);
             if (max_value < sub_arrays[i][current_start_index]) {
                 max_value = sub_arrays[i][current_start_index];
                 max_array = i;
@@ -136,13 +136,5 @@ static void create_sub_arrays(int input_array[ARRAY_SIZE], int output_arrays[SUB
     /* Set the last and longer array. */
     for (i = 0; i < LAST_ARRAY_SIZE; i++) {
         output_arrays[SUB_ARRAYS - 1][i] = input_array[ARRAY_SIZE - LAST_ARRAY_SIZE + i];
-    }
-
-    /*~~~*/
-    for (i = 0; i < SUB_ARRAYS; i++) {
-        for (j = 0; j < LAST_ARRAY_SIZE; j++) {
-            printf("%d ", output_arrays[i][j]);
-        }
-        printf("\n");
     }
 }
