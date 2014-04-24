@@ -120,7 +120,7 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
 /* create_sub_arrays - divide the input_array (of size n) into (k - 1) sub-arrays of size [n / k]
    and to another sub-array with the rest of the members.
 
-   The sub-arrays are stored in an array of an array.
+   The sub-arrays are stored in an array of arrays.
  */
 static void create_sub_arrays(int input_array[ARRAY_SIZE], int output_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE])
 {
