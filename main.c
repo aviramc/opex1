@@ -75,7 +75,7 @@ end:
  */
 static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
 {
-    int sub_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE] = {0};
+    int sub_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE] = {{0}};
     int max_value = 0;
     unsigned int max_array = 0;
     unsigned int first_array_index = 0;
