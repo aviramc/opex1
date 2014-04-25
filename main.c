@@ -14,30 +14,46 @@
 /* The size of the array k, which will always be larger or equal to SUB_ARRAYS_SIZE */
 #define LAST_ARRAY_SIZE (SUB_ARRAYS_SIZE + (ARRAY_SIZE % SUB_ARRAYS))
 
-static void exercise_sort(int array_to_sort[ARRAY_SIZE]);
+static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE]);
 static void create_sub_arrays(int input_array[ARRAY_SIZE], int output_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE]);
+
+typedef enum {
+    RC_SUCCESS = 0,
+    RC_ERROR = 1,
+} rc_t;
 
 int main(int argc, char * const argv[])
 {
+    unsigned int sort_comparisons = 0;
+    unsigned int array_find_max_comparisons = 0;
     int input_array[ARRAY_SIZE] = {0};
-    int rc = -1;
+    rc_t rc = RC_ERROR;
 
     if (2 != argc) {
         printf("Usage: %s input_file\n", argv[0]);
-        rc = -1;
+        rc = RC_ERROR;
         goto end;
     }
 
+    /* TODO: Should we read the divided array directly from the file? */
     if (!array__read_from_file(argv[1], ARRAY_SIZE, input_array)) {
         printf("Error reading list from file\n");
-        rc = -1;
+        rc = RC_ERROR;
         goto end;
     }
 
+    array__reset_comparisons();
     printf("The original array:\n");
     array__print(input_array, ARRAY_SIZE);
     printf("The sorted array:\n");
-    exercise_sort(input_array);
+    sort_comparisons = exercise_sort(input_array);
+    printf("\n");
+    array_find_max_comparisons = array__get_comparisons();
+    printf("Comparisons of all sub-ararys: %d\n", array_find_max_comparisons);
+    printf("Comparisons of the maximums of the sub-arrays: %d\n", sort_comparisons);
+    printf("Total comparisons: %d\n", array_find_max_comparisons + sort_comparisons);
+
+    rc = RC_SUCCESS;
     
 end:
     return rc;
@@ -54,8 +70,10 @@ end:
          belongs, thus 'throwing it away', as we no longer need this max value in the beginning of the array.
       5. We do 3-4 over and over, until all the sub-arrays are 'emptied' and all the values have been printed in a
          descending order.
+
+   The function returns the number of comparisons done to find the max of max's in each of the sub-array.
  */
-static void exercise_sort(int array_to_sort[ARRAY_SIZE])
+static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
 {
     int sub_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE] = {0};
     int max_value = 0;
@@ -66,6 +84,7 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
     unsigned int current_start_index = 0;
     unsigned int current_array_size = 0;
     unsigned int i = 0;
+    unsigned int comparisons = 0;
 
     /* Initialize the sizes of the first (k - 1) sub-arrays. */
     for (i = 0; i < SUB_ARRAYS - 1; i++) {
@@ -73,8 +92,11 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
     }
     /* Intialize the size of the last array. */
     sub_arrays_sizes[SUB_ARRAYS - 1] = LAST_ARRAY_SIZE;
-    
+
+    /* TODO: Should this be done in the main function, and should this function take the sub-array as an argument? */
     create_sub_arrays(array_to_sort, sub_arrays);
+
+    comparisons = 0;
 
     for (first_array_index = 0; first_array_index < SUB_ARRAYS; ) {
         /* Initially set the max index to the index of the max of the first array. */
@@ -98,6 +120,7 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
             }
 
             array__max_to_first(sub_arrays[i], current_start_index, current_array_size - 1);
+            comparisons += 1;
             if (max_value < sub_arrays[i][current_start_index]) {
                 max_value = sub_arrays[i][current_start_index];
                 max_array = i;
@@ -113,7 +136,10 @@ static void exercise_sort(int array_to_sort[ARRAY_SIZE])
             first_array_index += 1;
         }
     }
+
     printf("\n");
+
+    return comparisons;
 }
 
 /* TODO: Add tests to this function */

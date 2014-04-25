@@ -10,4 +10,8 @@ bool array__read_from_file(char * const filename, unsigned int array_size, int a
 unsigned int array__find_max_index(int array[], unsigned int start_index, unsigned int end_index);
 void array__max_to_first(int array[], unsigned int start_index, unsigned int end_index);
 
+/* Functions for resetting and getting the amount of comparisons for the find_max function. */
+void array__reset_comparisons();
+unsigned int array__get_comparisons();
+
 #endif /* __ARRAY_H__ */

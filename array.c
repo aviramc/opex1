@@ -5,6 +5,8 @@
 #include "limits.h"
 #include "array.h"
 
+static unsigned int comparisons;
+
 void array__print(int array[], unsigned int size)
 {
     unsigned int i = 0;
@@ -46,6 +48,7 @@ unsigned int array__find_max_index(int array[], unsigned int start_index, unsign
     unsigned int i = start_index;
 
     for (i = start_index; i <= end_index; i++) {
+        comparisons += 1;
         if (array[i] > array[current_max_index]) {
             current_max_index = i;
         }
@@ -62,4 +65,14 @@ void array__max_to_first(int array[], unsigned int start_index, unsigned int end
     temp = array[max_index];
     array[max_index] = array[start_index];
     array[start_index] = temp;
+}
+
+void array__reset_comparisons()
+{
+    comparisons = 0;
+}
+
+unsigned int array__get_comparisons()
+{
+    return comparisons;
 }
