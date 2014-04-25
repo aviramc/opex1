@@ -19,7 +19,7 @@ static void create_sub_arrays(int input_array[ARRAY_SIZE], int output_arrays[SUB
 
 typedef enum {
     RC_SUCCESS = 0,
-    RC_ERROR = 1,
+    RC_ERROR = -1,
 } rc_t;
 
 int main(int argc, char * const argv[])
