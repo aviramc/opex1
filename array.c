@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "number.h"
 #include "limits.h"
 #include "array.h"
 
@@ -31,7 +32,10 @@ bool array__read_from_file(char * const filename, unsigned int array_size, int a
     }
 
     for (i = 0 ; NULL != fgets(read_buffer, MAX_NUMBER_LENGTH + 1, input_file) && i < array_size; i++) {
-        /* TODO: atoi doesn't detect errors */
+        if (!number__validate_number_string(read_buffer)) {
+            return false;
+        }
+
         array[i] = atoi(read_buffer);
     }
 
