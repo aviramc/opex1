@@ -9,7 +9,7 @@ void test_max_to_first();
 
 int main(void)
 {
-    /* test_find_max_index(); */
+    test_find_max_index();
     test_max_to_first();
     return 0;
 }
