@@ -2,13 +2,14 @@
 /* TODO: Use std types? */
 /* TODO: Go over unnecessary includes */
 #include <string.h>
+#include <limits.h>
 #include <stdio.h>
 
+#include "subarray.h"
 #include "limits.h"
 #include "array.h"
 
-#define ARRAY_SIZE (8)        /* The 'n' of the exercise */
-#define SUB_ARRAYS (2)        /* The 'k' of the exercise */
+#define ARRAY_SIZE (256)        /* The 'n' of the exercise */
 /* The size of each sub array of the first (k - 1) arrays. */
 #define SUB_ARRAYS_SIZE (ARRAY_SIZE / SUB_ARRAYS)   /* [n/k] */
 /* The size of the array k, which will always be larger or equal to SUB_ARRAYS_SIZE */
@@ -78,13 +79,13 @@ static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
     int sub_arrays[SUB_ARRAYS][LAST_ARRAY_SIZE] = {{0}};
     int max_value = 0;
     unsigned int max_array = 0;
-    unsigned int first_array_index = 0;
     unsigned int sub_arrays_start_index[SUB_ARRAYS] = {0};
     unsigned int sub_arrays_sizes[SUB_ARRAYS] = {0};
     unsigned int current_start_index = 0;
     unsigned int current_array_size = 0;
     unsigned int i = 0;
     unsigned int comparisons = 0;
+    unsigned int members_to_print = 0;
 
     /* Initialize the sizes of the first (k - 1) sub-arrays. */
     for (i = 0; i < SUB_ARRAYS - 1; i++) {
@@ -96,45 +97,39 @@ static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
     /* TODO: Should this be done in the main function, and should this function take the sub-array as an argument? */
     create_sub_arrays(array_to_sort, sub_arrays);
 
+    for (i = 0; i < SUB_ARRAYS; i++) {
+        current_start_index = sub_arrays_start_index[i];
+        current_array_size = sub_arrays_sizes[i];
+        array__max_to_first(sub_arrays[i], current_start_index, current_array_size - 1);
+    }
+
     comparisons = 0;
-
-    for (first_array_index = 0; first_array_index < SUB_ARRAYS; ) {
-        /* Initially set the max index to the index of the max of the first array. */
-        current_start_index = sub_arrays_start_index[first_array_index];
-        current_array_size = sub_arrays_sizes[first_array_index];
-        array__max_to_first(sub_arrays[first_array_index], current_start_index, current_array_size - 1);
-        max_value = sub_arrays[first_array_index][current_start_index];
-        max_array = first_array_index;
-
-        /* Go over all the other sub arrays and:
-             - For each, find its max value.
-             - Compare its max value to the other sub-arrays' max values.
-             - Find the max value of all the sub-arrays and the index of the sub-array that contains the value.
-         */
-        for (i = first_array_index + 1; i < SUB_ARRAYS; i++) {
+    members_to_print = ARRAY_SIZE;
+    while (members_to_print) {
+        max_value = INT_MIN;
+        for (i = 0; i < SUB_ARRAYS; i++) {
             current_start_index = sub_arrays_start_index[i];
             current_array_size = sub_arrays_sizes[i];
+
             /* Skip empty sub-arrays */
             if (ARRAY_EMPTY(current_start_index, current_array_size)) {
                 continue;
             }
 
-            array__max_to_first(sub_arrays[i], current_start_index, current_array_size - 1);
+            current_start_index = sub_arrays_start_index[i];
+            current_array_size = sub_arrays_sizes[i];
             comparisons += 1;
             if (max_value < sub_arrays[i][current_start_index]) {
                 max_value = sub_arrays[i][current_start_index];
                 max_array = i;
             }
-        }
 
-        /* TODO: Should we store the max value or just print it? */
+        }
         printf("%d ", max_value);
         sub_arrays_start_index[max_array] += 1;
+        members_to_print -= 1;
 
-        /* The the first array has been emptied, skip it until we have a non empty sub-array */
-        while (ARRAY_EMPTY(sub_arrays_start_index[first_array_index], sub_arrays_sizes[first_array_index])) {
-            first_array_index += 1;
-        }
+        array__max_to_first(sub_arrays[max_array], sub_arrays_start_index[max_array], sub_arrays_sizes[max_array] - 1);
     }
 
     printf("\n");

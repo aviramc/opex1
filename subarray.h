@@ -1,0 +1,1 @@
+#define SUB_ARRAYS (255)        /* The 'k' of the exercise */
