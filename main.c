@@ -1,6 +1,3 @@
-/* TODO: Makefile */
-/* TODO: Use std types? */
-/* TODO: Go over unnecessary includes */
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
@@ -36,7 +33,6 @@ int main(int argc, char * const argv[])
         goto end;
     }
 
-    /* TODO: Should we read the divided array directly from the file? */
     if (!array__read_from_file(argv[1], ARRAY_SIZE, input_array)) {
         printf("Error reading list from file\n");
         rc = RC_ERROR;
@@ -60,7 +56,6 @@ end:
     return rc;
 }
 
-/* TODO: Put these in their own file? */
 /* exercise_sort - sort an array (descending) by dividing it into sub-arrays, then finding the max of each.
 
    We do this by:
@@ -94,7 +89,6 @@ static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
     /* Intialize the size of the last array. */
     sub_arrays_sizes[SUB_ARRAYS - 1] = LAST_ARRAY_SIZE;
 
-    /* TODO: Should this be done in the main function, and should this function take the sub-array as an argument? */
     create_sub_arrays(array_to_sort, sub_arrays);
 
     for (i = 0; i < SUB_ARRAYS; i++) {
@@ -137,7 +131,6 @@ static unsigned int exercise_sort(int array_to_sort[ARRAY_SIZE])
     return comparisons;
 }
 
-/* TODO: Add tests to this function */
 /* create_sub_arrays - divide the input_array (of size n) into (k - 1) sub-arrays of size [n / k]
    and to another sub-array with the rest of the members.
 
